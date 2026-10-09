@@ -101,4 +101,3 @@ function renderStudents() {
 }
 
 renderStudents();
-```
