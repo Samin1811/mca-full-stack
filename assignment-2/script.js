@@ -1,6 +1,17 @@
 const studentForm = document.getElementById("studentForm");
 const studentTable = document.getElementById("studentTable");
-const students = [];
+
+const STORAGE_KEY = "students";
+let students = [];
+
+try {
+  students = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+  if (!Array.isArray(students)) {
+    students = [];
+  }
+} catch (error) {
+  students = [];
+}
 
 studentForm.addEventListener("submit", function (event) {
   event.preventDefault();
@@ -9,14 +20,25 @@ studentForm.addEventListener("submit", function (event) {
   const id = document.getElementById("studentId").value.trim();
   const email = document.getElementById("studentEmail").value.trim();
   const course = document.getElementById("studentCourse").value.trim();
-  const marks = Number(document.getElementById("studentMarks").value);
+  const marksInput = document.getElementById("studentMarks").value;
+  const marks = Number(marksInput);
 
   if (!name || !id || !email || !course) {
     alert("Please fill in all student details.");
     return;
   }
 
-  if (marks < 0 || marks > 100 || document.getElementById("studentMarks").value === "") {
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    alert("Please enter a valid email address.");
+    return;
+  }
+
+  if (
+    marksInput === "" ||
+    !Number.isFinite(marks) ||
+    marks < 0 ||
+    marks > 100
+  ) {
     alert("Marks must be between 0 and 100.");
     return;
   }
@@ -32,8 +54,20 @@ studentForm.addEventListener("submit", function (event) {
 
   const result = marks >= 40 ? "Pass" : "Fail";
 
-  const student = { id, name, email, course, marks, result };
+  const student = {
+    id: id,
+    name: name,
+    email: email,
+    course: course,
+    marks: marks,
+    percentage: marks,
+    result: result
+  };
+
   students.push(student);
+
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(students));
+
   renderStudents();
   studentForm.reset();
 });
@@ -52,10 +86,19 @@ function renderStudents() {
   students.forEach(function (student) {
     const row = studentTable.insertRow();
 
-    [student.id, student.name, student.email, student.course,
-      student.marks, student.result].forEach(function (value) {
+    [
+      student.id,
+      student.name,
+      student.email,
+      student.course,
+      student.marks,
+      student.result
+    ].forEach(function (value) {
       const cell = row.insertCell();
       cell.textContent = value;
     });
   });
 }
+
+renderStudents();
+```
