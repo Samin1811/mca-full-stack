@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Registration and Result Management</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Student Management System</h1>
+    <p>Student Registration and Result Management</p>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>Student Registration</h2>
+      <form id="studentForm">
+        <label for="studentName">Full Name</label>
+        <input id="studentName" name="studentName" type="text" required>
+
+        <label for="studentId">Student ID</label>
+        <input id="studentId" name="studentId" type="text" required>
+
+        <label for="studentEmail">Email</label>
+        <input id="studentEmail" name="studentEmail" type="email" required>
+
+        <label for="studentCourse">Course</label>
+        <input id="studentCourse" name="studentCourse" type="text" required>
+
+        <label for="studentMarks">Marks (out of 100)</label>
+        <input id="studentMarks" name="studentMarks" type="number" min="0" max="100" required>
+
+        <button type="submit">Register Student</button>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>Student Records and Results</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Student ID</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Course</th>
+              <th>Marks</th>
+              <th>Result</th>
+            </tr>
+          </thead>
+          <tbody id="studentTable">
+            <tr>
+              <td colspan="6">No students registered yet.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
